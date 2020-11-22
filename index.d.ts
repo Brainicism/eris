@@ -1210,6 +1210,7 @@ declare namespace Eris {
     searchGuildMembers(guildID: string, query: string, limit?: number): Promise<Member[]>;
     searchChannelMessages(channelID: string, query: SearchOptions): Promise<SearchResults>;
     searchGuildMessages(guildID: string, query: SearchOptions): Promise<SearchResults>;
+    sweepCaches(ttl: number): {users: number, members: number};
     on: ClientEvents<this>;
     toString(): string;
     toJSON(props?: string[]): JSONCache;
