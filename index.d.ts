@@ -223,6 +223,7 @@ declare namespace Eris {
     rest?: RequestHandlerOptions;
     restMode?: boolean;
     seedVoiceConnections?: boolean;
+    useMaxConcurrency?: boolean;
     ws?: unknown;
   }
   interface CommandClientOptions {
