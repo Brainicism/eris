@@ -17,3 +17,9 @@
 ```
 npm i DonovanDMC/eris#everything
 ```
+
+#### Table of Contents
+* **everything**
+* [v9-components](https://github.com/DonovanDMC/eris/tree/v9-components)
+* [v9-interactions](https://github.com/DonovanDMC/eris/tree/v9-interactions)
+* [v9-components-interactions](https://github.com/DonovanDMC/eris/tree/v9-components-interactions)
