@@ -49,6 +49,7 @@ declare namespace Eris {
   // Guild
   type DefaultNotifications = 0 | 1;
   type ExplicitContentFilter = 0 | 1 | 2;
+  type GuildFeatures = "ANIMATED_ICON" | "BANNER" | "COMMERCE" | "COMMUNITY" | "DISCOVERABLE" | "FEATURABLE" | "INVITE_SPLASH" | "MEMBER_VERIFICATION_GATE_ENABLED" | "NEWS" | "PARTNERED" | "PREVIEW_ENABLED" | "VANITY_URL" | "VERIFIED" | "VIP_REGIONS" | "WELCOME_SCREEN_ENABLED" | "TICKETED_EVENTS_ENABLED" | "MONETIZATION_ENABLED" | "MORE_STICKERS" | "THREE_DAY_THREAD_ARCHIVE" | "SEVEN_DAY_THREAD_ARCHIVE" | "PRIVATE_THREADS";
   type NSFWLevel = 0 | 1 | 2 | 3;
   type PossiblyUncachedGuild = Guild | Uncached;
   type PremiumTier = 0 | 1 | 2 | 3;
@@ -487,7 +488,7 @@ declare namespace Eris {
     discoverySplash: string | null;
     emojis: Omit<Emoji, "user" | "icon">[];
     explicitContentFilter: ExplicitContentFilter;
-    features: string[];
+    features: GuildFeatures[];
     icon: string | null;
     large: boolean;
     maxMembers?: number;
@@ -793,7 +794,7 @@ declare namespace Eris {
     description?: string;
     discoverySplash?: string;
     explicitContentFilter?: ExplicitContentFilter;
-    features?: string[];
+    features?: GuildFeatures[]; // Though only some are editable?
     icon?: string;
     name?: string;
     ownerID?: string;
@@ -2228,7 +2229,7 @@ declare namespace Eris {
     emojiCount?: number;
     emojis: Emoji[];
     explicitContentFilter: ExplicitContentFilter;
-    features: string[];
+    features: GuildFeatures[];
     icon: string | null;
     iconURL: string | null;
     id: string;
@@ -2440,7 +2441,7 @@ declare namespace Eris {
     discoverySplash: string | null;
     discoverySplashURL: string | null;
     emojis: Emoji[];
-    features: string[];
+    features: GuildFeatures[];
     icon: string | null;
     iconURL: string | null;
     id: string;
