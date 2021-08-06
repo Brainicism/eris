@@ -10,6 +10,8 @@
 * [@HeadTriXz](https://github.com/HeadTriXz) [[Better types for events](https://github.com/abalabahaha/eris/pull/1242)]
 * [@iiFDCT](https://github.com/iiFDCT) [[Add support for user banners ](https://github.com/abalabahaha/eris/pull/1238)]
 * [@LJNeon](https://github.com/LJNeon) [[Standardized parsing errors](https://github.com/abalabahaha/eris/pull/1227)]
+* [@bsian03](https://github.com/bsian03) [[Fix/improve handling of rate limit headers](https://github.com/abalabahaha/eris/pull/1256)]
+* [@bsian03](https://github.com/bsian03) [[Expose audit log events 83-85](https://github.com/abalabahaha/eris/pull/1213)]
 
 #### To Install:
 ```
