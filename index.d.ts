@@ -923,7 +923,9 @@ declare namespace Eris {
     roles: string[];
   }
   interface PartialUser {
+    accentColor: number | null;
     avatar: string | null;
+    banner: string | null;
     discriminator: string;
     id: string;
     username: string;
@@ -1942,10 +1944,13 @@ declare namespace Eris {
       messageID: string,
       options: MessageWebhookContent
     ): Promise<Message<GuildTextableChannel>>;
+    emit<K extends keyof ClientEvents>(event: K, ...args: ClientEvents[K]): boolean;
+    emit(event: string, ...args: any[]): boolean;
     enableSelfMFATOTP(
       secret: string,
       code: string
     ): Promise<{ backup_codes: { code: string; consumed: boolean }[]; token: string }>;
+
     executeSlackWebhook(webhookID: string, token: string, options: Record<string, unknown> & { auth?: boolean; threadID?: string }): Promise<void>;
     executeSlackWebhook(webhookID: string, token: string, options: Record<string, unknown> & { auth?: boolean; threadID?: string; wait: true }): Promise<Message<GuildTextableChannel>>;
     executeWebhook(webhookID: string, token: string, options: WebhookPayload & { wait: true }): Promise<Message<GuildTextableChannel>>;
@@ -2060,8 +2065,15 @@ declare namespace Eris {
     leaveGuild(guildID: string): Promise<void>;
     leaveThread(channelID: string, userID?: string): Promise<void>;
     leaveVoiceChannel(channelID: string): void;
+    off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => void): this;
+    off(event: string, listener: (...args: any[]) => void): this;
+    once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => void): this;
+    once(event: string, listener: (...args: any[]) => void): this;
     pinMessage(channelID: string, messageID: string): Promise<void>;
+
+
     pruneMembers(guildID: string, options?: PruneMemberOptions): Promise<number>;
+
     purgeChannel(channelID: string, options: PurgeChannelOptions): Promise<number>;
     /** @deprecated */
     purgeChannel(
@@ -2087,14 +2099,20 @@ declare namespace Eris {
     unbanGuildMember(guildID: string, userID: string, reason?: string): Promise<void>;
     unpinMessage(channelID: string, messageID: string): Promise<void>;
     validateDiscoverySearchTerm(term: string): Promise<{ valid: boolean }>;
-    emit<K extends keyof ClientEvents>(event: K, ...args: ClientEvents[K]): boolean;
-    emit(event: string, ...args: any[]): boolean;
+
+
+
+
+
     on<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => void): this;
+
+
     on(event: string, listener: (...args: any[]) => void): this;
-    once<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => void): this;
-    once(event: string, listener: (...args: any[]) => void): this;
-    off<K extends keyof ClientEvents>(event: K, listener: (...args: ClientEvents[K]) => void): this;
-    off(event: string, listener: (...args: any[]) => void): this;
+
+
+
+
+
     toString(): string;
   }
 
@@ -2211,7 +2229,7 @@ declare namespace Eris {
     recipients: Collection<User>;
     type: 3;
     addRecipient(userID: string): Promise<void>;
-    dynamicIconURL(format?: ImageFormat, size?: number): string;
+    dynamicIconURL(format?: ImageFormat, size?: number): string | null;
     edit(options: { icon?: string; name?: string; ownerID?: string }): Promise<GroupChannel>;
     removeRecipient(userID: string): Promise<void>;
   }
@@ -2311,10 +2329,10 @@ declare namespace Eris {
     deleteIntegration(integrationID: string): Promise<void>;
     deleteRole(roleID: string): Promise<void>;
     deleteTemplate(code: string): Promise<GuildTemplate>;
-    dynamicBannerURL(format?: ImageFormat, size?: number): string;
-    dynamicDiscoverySplashURL(format?: ImageFormat, size?: number): string;
-    dynamicIconURL(format?: ImageFormat, size?: number): string;
-    dynamicSplashURL(format?: ImageFormat, size?: number): string;
+    dynamicBannerURL(format?: ImageFormat, size?: number): string | null;
+    dynamicDiscoverySplashURL(format?: ImageFormat, size?: number): string | null;
+    dynamicIconURL(format?: ImageFormat, size?: number): string | null;
+    dynamicSplashURL(format?: ImageFormat, size?: number): string | null;
     edit(options: GuildOptions, reason?: string): Promise<Guild>;
     editCommand(commandID: string, command: SlashCommandStructure): Promise<SlashCommand>;
     editCommandPermissions(permissions: SlashCommandPermissions[]): Promise<GuildSlashCommandPermissions[]>;
@@ -2454,9 +2472,9 @@ declare namespace Eris {
     splash: string | null;
     splashURL: string | null;
     constructor(data: BaseData, client: Client);
-    dynamicDiscoverySplashURL(format?: ImageFormat, size?: number): string;
-    dynamicIconURL(format?: ImageFormat, size?: number): string;
-    dynamicSplashURL(format?: ImageFormat, size?: number): string;
+    dynamicDiscoverySplashURL(format?: ImageFormat, size?: number): string | null;
+    dynamicIconURL(format?: ImageFormat, size?: number): string | null;
+    dynamicSplashURL(format?: ImageFormat, size?: number): string | null;
   }
 
   export class GuildTemplate {
@@ -2593,9 +2611,12 @@ declare namespace Eris {
   }
 
   export class Member extends Base implements Presence {
+    accentColor: number | null;
     activities?: Activity[];
     avatar: string | null;
     avatarURL: string;
+    banner: string | null;
+    bannerURL: string | null;
     bot: boolean;
     clientStatus?: ClientStatus;
     createdAt: number;
@@ -2891,13 +2912,23 @@ declare namespace Eris {
     editStatus(activities?: ActivityPartial<BotActivityType>[] | ActivityPartial<BotActivityType>): void;
     // @ts-ignore: Method override
     emit(event: string, ...args: any[]): void;
+    emit<K extends keyof ShardEvents>(event: K, ...args: ShardEvents[K]): boolean;
+    emit(event: string, ...args: any[]): boolean;
     getGuildMembers(guildID: string, timeout: number): void;
+
     hardReset(): void;
     heartbeat(normal?: boolean): void;
     identify(): void;
     initializeWS(): void;
+    off<K extends keyof ShardEvents>(event: K, listener: (...args: ShardEvents[K]) => void): this;
+    off(event: string, listener: (...args: any[]) => void): this;
+    once<K extends keyof ShardEvents>(event: K, listener: (...args: ShardEvents[K]) => void): this;
+    once(event: string, listener: (...args: any[]) => void): this;
     onPacket(packet: RawPacket): void;
+
+
     requestGuildMembers(guildID: string, options?: RequestGuildMembersOptions): Promise<RequestGuildMembersReturn>;
+
     requestGuildSync(guildID: string): void;
     reset(): void;
     restartGuildCreateTimeout(): void;
@@ -2906,14 +2937,20 @@ declare namespace Eris {
     sendWS(op: number, _data: Record<string, unknown>, priority?: boolean): void;
     syncGuild(guildID: string): void;
     wsEvent(packet: Required<RawPacket>): void;
-    emit<K extends keyof ShardEvents>(event: K, ...args: ShardEvents[K]): boolean;
-    emit(event: string, ...args: any[]): boolean;
+
+
+
+
+
     on<K extends keyof ShardEvents>(event: K, listener: (...args: ShardEvents[K]) => void): this;
+
+
     on(event: string, listener: (...args: any[]) => void): this;
-    once<K extends keyof ShardEvents>(event: K, listener: (...args: ShardEvents[K]) => void): this;
-    once(event: string, listener: (...args: any[]) => void): this;
-    off<K extends keyof ShardEvents>(event: K, listener: (...args: ShardEvents[K]) => void): this;
-    off(event: string, listener: (...args: any[]) => void): this;
+
+
+
+
+
     toJSON(props?: string[]): JSONCache;
   }
 
@@ -2942,19 +2979,43 @@ declare namespace Eris {
     voiceConnections: Collection<VoiceConnection>;
     volume: number;
     add(connection: VoiceConnection): void;
-    play(resource: ReadableStream | string, options?: VoiceResourceOptions): void;
-    remove(connection: VoiceConnection): void;
-    setSpeaking(value: boolean): void;
-    setVolume(volume: number): void;
-    stopPlaying(): void;
     emit<K extends keyof StreamEvents>(event: K, ...args: StreamEvents[K]): boolean;
     emit(event: string, ...args: any[]): boolean;
-    on<K extends keyof StreamEvents>(event: K, listener: (...args: StreamEvents[K]) => void): this;
-    on(event: string, listener: (...args: any[]) => void): this;
-    once<K extends keyof StreamEvents>(event: K, listener: (...args: StreamEvents[K]) => void): this;
-    once(event: string, listener: (...args: any[]) => void): this;
     off<K extends keyof StreamEvents>(event: K, listener: (...args: StreamEvents[K]) => void): this;
     off(event: string, listener: (...args: any[]) => void): this;
+    once<K extends keyof StreamEvents>(event: K, listener: (...args: StreamEvents[K]) => void): this;
+    once(event: string, listener: (...args: any[]) => void): this;
+play(resource: ReadableStream | string, options?: VoiceResourceOptions): void;
+
+
+
+    
+    remove(connection: VoiceConnection): void;
+
+
+
+    setSpeaking(value: boolean): void;
+
+
+    setVolume(volume: number): void;
+
+
+    stopPlaying(): void;
+
+
+
+
+
+
+    on<K extends keyof StreamEvents>(event: K, listener: (...args: StreamEvents[K]) => void): this;
+
+
+    on(event: string, listener: (...args: any[]) => void): this;
+
+
+
+
+
   }
 
   export class StageChannel extends VoiceChannel {
@@ -3088,8 +3149,11 @@ declare namespace Eris {
   }
 
   export class User extends Base {
+    accentColor: number | null;
     avatar: string | null;
     avatarURL: string;
+    banner: string | null;
+    bannerURL: string | null;
     bot: boolean;
     createdAt: number;
     defaultAvatar: string;
@@ -3105,6 +3169,7 @@ declare namespace Eris {
     addRelationship(block?: boolean): Promise<void>;
     deleteNote(): Promise<void>;
     dynamicAvatarURL(format?: ImageFormat, size?: number): string;
+    dynamicBannerURL(format?: ImageFormat, size?: number): string | null;
     editNote(note: string): Promise<void>;
     getDMChannel(): Promise<PrivateChannel>;
     getProfile(): Promise<UserProfile>;
@@ -3169,11 +3234,25 @@ declare namespace Eris {
     constructor(id: string, options?: { shard?: Shard; shared?: boolean; opusOnly?: boolean });
     connect(data: VoiceConnectData): NodeJS.Timer | void;
     disconnect(error?: Error, reconnecting?: boolean): void;
+    emit<K extends keyof VoiceEvents>(event: K, ...args: VoiceEvents[K]): boolean;
+    emit(event: string, ...args: any[]): boolean;
     heartbeat(): void;
+
+    off<K extends keyof VoiceEvents>(event: K, listener: (...args: VoiceEvents[K]) => void): this;
+    off(event: string, listener: (...args: any[]) => void): this;
+    once<K extends keyof VoiceEvents>(event: K, listener: (...args: VoiceEvents[K]) => void): this;
+    once(event: string, listener: (...args: any[]) => void): this;
     pause(): void;
+
+
+
     play(resource: ReadableStream | string, options?: VoiceResourceOptions): void;
+
+
     receive(type: "opus" | "pcm"): VoiceDataStream;
+
     registerReceiveEventHandler(): void;
+
     resume(): void;
     sendWS(op: number, data: Record<string, unknown>): void;
     setSpeaking(value: boolean): void;
@@ -3181,14 +3260,20 @@ declare namespace Eris {
     stopPlaying(): void;
     switchChannel(channelID: string): void;
     updateVoiceState(selfMute: boolean, selfDeaf: boolean): void;
-    emit<K extends keyof VoiceEvents>(event: K, ...args: VoiceEvents[K]): boolean;
-    emit(event: string, ...args: any[]): boolean;
+
+
+
+
+
     on<K extends keyof VoiceEvents>(event: K, listener: (...args: VoiceEvents[K]) => void): this;
+
+
     on(event: string, listener: (...args: any[]) => void): this;
-    once<K extends keyof VoiceEvents>(event: K, listener: (...args: VoiceEvents[K]) => void): this;
-    once(event: string, listener: (...args: any[]) => void): this;
-    off<K extends keyof VoiceEvents>(event: K, listener: (...args: VoiceEvents[K]) => void): this;
-    off(event: string, listener: (...args: any[]) => void): this;
+
+
+
+
+
     toJSON(props?: string[]): JSONCache;
   }
 
