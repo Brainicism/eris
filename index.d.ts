@@ -67,6 +67,7 @@ declare namespace Eris {
     messageReference?: MessageReferenceReply;
     /** @deprecated */
     messageReferenceID?: string;
+    stickerIDs?: string[];
     tts?: boolean;
   };
   type ActionRowComponents = Button | SelectMenu;
