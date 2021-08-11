@@ -780,6 +780,7 @@ declare namespace Eris {
   interface GuildAuditLog {
     entries: GuildAuditLogEntry[];
     integrations: GuildIntegration[];
+    threads: AnyThreadChannel[];
     users: User[];
     webhooks: Webhook[];
   }
@@ -1131,11 +1132,6 @@ declare namespace Eris {
   }
 
   // Thread
-  interface ListedThreads<T extends ThreadChannel = AnyThreadChannel> {
-    hasMore: boolean;
-    members: ThreadMember[];
-    threads: T[];
-  }
   interface CreateThreadOptions {
     autoArchiveDuration: AutoArchiveDuration;
     name: string;
@@ -1146,6 +1142,13 @@ declare namespace Eris {
   interface GetArchivedThreadsOptions {
     before?: Date;
     limit?: number;
+  }
+  interface ListedChannelThreads<T extends ThreadChannel = AnyThreadChannel> extends ListedGuildThreads<T> {
+    hasMore: boolean;
+  }
+  interface ListedGuildThreads<T extends ThreadChannel = AnyThreadChannel> {
+    members: ThreadMember[];
+    threads: T[];
   }
   interface ThreadMetadata {
     archiveTimestamp: number;
@@ -1316,6 +1319,10 @@ declare namespace Eris {
       STAGE_INSTANCE_CREATE: 83;
       STAGE_INSTANCE_UPDATE: 84;
       STAGE_INSTANCE_DELETE: 85;
+
+      THREAD_CREATE: 110;
+      THREAD_UPDATE: 111;
+      THREAD_DELETE: 112;
     };
     ChannelTypes: {
       GUILD_TEXT: 0;
@@ -1955,9 +1962,11 @@ declare namespace Eris {
     executeWebhook(webhookID: string, token: string, options: WebhookPayload & { wait: true }): Promise<Message<GuildTextableChannel>>;
     executeWebhook(webhookID: string, token: string, options: WebhookPayload): Promise<void>;
     followChannel(channelID: string, webhookChannelID: string): Promise<ChannelFollow>;
-    getActiveThreads(channelID: string): Promise<ListedThreads>;
-    getArchivedThreads(channelID: string, type: "private", options?: GetArchivedThreadsOptions): Promise<ListedThreads<PrivateThreadChannel>>;
-    getArchivedThreads(channelID: string, type: "public", options?: GetArchivedThreadsOptions): Promise<ListedThreads<PublicThreadChannel>>;
+    getActiveGuildThreads(guildID: string): Promise<ListedGuildThreads>;
+    /** @deprecated */
+    getActiveThreads(channelID: string): Promise<ListedChannelThreads>;
+    getArchivedThreads(channelID: string, type: "private", options?: GetArchivedThreadsOptions): Promise<ListedChannelThreads<PrivateThreadChannel>>;
+    getArchivedThreads(channelID: string, type: "public", options?: GetArchivedThreadsOptions): Promise<ListedChannelThreads<PublicThreadChannel>>;
     getBotGateway(): Promise<{ session_start_limit: { max_concurrency: number; remaining: number; reset_after: number; total: number }; shards: number; url: string }>;
     getChannel(channelID: string): AnyChannel;
     getChannelInvites(channelID: string): Promise<Invite[]>;
@@ -1992,7 +2001,7 @@ declare namespace Eris {
     getGuildWidgetSettings(guildID: string): Promise<Widget>;
     getInvite(inviteID: string, withCounts?: false): Promise<Invite<"withoutCount">>;
     getInvite(inviteID: string, withCounts: true): Promise<Invite<"withCount">>;
-    getJoinedPrivateArchivedThreads(channelID: string, options?: GetArchivedThreadsOptions): Promise<ListedThreads<PrivateThreadChannel>>;
+    getJoinedPrivateArchivedThreads(channelID: string, options?: GetArchivedThreadsOptions): Promise<ListedChannelThreads<PrivateThreadChannel>>;
     getMessage(channelID: string, messageID: string): Promise<Message>;
     getMessageReaction(channelID: string, messageID: string, reaction: string, options?: GetMessageReactionOptions): Promise<User[]>;
     /** @deprecated */
@@ -2348,6 +2357,7 @@ declare namespace Eris {
     editWidget(options: Widget): Promise<Widget>;
     fetchAllMembers(timeout?: number): Promise<number>;
     fetchMembers(options?: FetchMembersOptions): Promise<Member[]>;
+    getActiveThreads(): Promise<ListedGuildThreads>;
     getAuditLog(options?: GetGuildAuditLogOptions): Promise<GuildAuditLog>;
     /** @deprecated */
     getAuditLogs(limit?: number, before?: string, actionType?: number, userID?: string): Promise<GuildAuditLog>;
@@ -3041,11 +3051,12 @@ declare namespace Eris {
     deleteMessages(messageIDs: string[], reason?: string): Promise<void>;
     edit(options: Omit<EditChannelOptions, "icon" | "ownerID">, reason?: string): Promise<this>;
     editMessage(messageID: string, content: MessageContentEdit): Promise<Message<TextChannel>>;
-    getActiveThreads(): Promise<ListedThreads>;
-    getArchivedThreads(type: "private", options?: GetArchivedThreadsOptions): Promise<ListedThreads<PrivateThreadChannel>>;
-    getArchivedThreads(type: "public", options?: GetArchivedThreadsOptions): Promise<ListedThreads<PublicThreadChannel>>;
+    /** @deprecated */
+    getActiveThreads(): Promise<ListedChannelThreads>;
+    getArchivedThreads(type: "private", options?: GetArchivedThreadsOptions): Promise<ListedChannelThreads<PrivateThreadChannel>>;
+    getArchivedThreads(type: "public", options?: GetArchivedThreadsOptions): Promise<ListedChannelThreads<PublicThreadChannel>>;
     getInvites(): Promise<(Invite<"withMetadata", TextChannel>)[]>;
-    getJoinedPrivateArchivedThreads(options: GetArchivedThreadsOptions): Promise<ListedThreads<PrivateThreadChannel>>;
+    getJoinedPrivateArchivedThreads(options: GetArchivedThreadsOptions): Promise<ListedChannelThreads<PrivateThreadChannel>>;
     getMessage(messageID: string): Promise<Message<TextChannel>>;
     getMessageReaction(messageID: string, reaction: string, options?: GetMessageReactionOptions): Promise<User[]>;
     /** @deprecated */
