@@ -1390,6 +1390,7 @@ declare namespace Eris {
       SOURCE_MESSAGE_DELETED: 8;
       URGENT: 16;
       HAS_THREAD: 32;
+      EPHEMERAL: 64;
     };
     MessageTypes: {
       DEFAULT: 0;
