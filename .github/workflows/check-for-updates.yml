@@ -2,7 +2,7 @@ name: Check For Updates
 
 on:
   schedule:
-    - cron: '0 */12 * * *'
+    - cron: '0 */3 * * *'
   workflow_dispatch:
 
 jobs:
@@ -14,11 +14,10 @@ jobs:
        uses: actions/checkout@v2
        with:
         repository: 'DonovanDMC/ErisPRUpdateBot'
-        token: ${{ secrets.TOKEN }}
-     - run: npm i
+     - name: Echo Token
+       run: echo $GH_TOKEN > token
+     - name: Install Packages
+       run: npm i
      - name: Run
        run: npx ts-node index.ts
-       env:
-        GITHUB_USER: ${{ secrets.USER }}
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
     
