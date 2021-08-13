@@ -2528,6 +2528,8 @@ declare namespace Eris {
     data: {
       id: string;
       name: string;
+      type: Constants["ApplicationCommandTypes"][keyof Constants["ApplicationCommandTypes"]];
+      target_id?: string;
       resolved?: {
         users?: Record<string, User>;
         members?: Record<string, Omit<Member, "user" | "deaf" | "mute">>;
