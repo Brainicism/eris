@@ -1386,6 +1386,8 @@ declare namespace Eris {
       guilds: 1;
       guildMembers: 2;
       guildBans: 4;
+      guildEmojisAndStickers: 8;
+      /** @deprecated */
       guildEmojis: 8;
       guildIntegrations: 16;
       guildWebhooks: 32;
@@ -1479,14 +1481,19 @@ declare namespace Eris {
       manageNicknames: 134217728n;
       manageRoles: 268435456n;
       manageWebhooks: 536870912n;
+      manageEmojisAndStickers: 1073741824n;
+      /** @deprecated */
       manageEmojis: 1073741824n;
+      useApplicationCommands: 2147483648n;
+      /** @deprecated */
       useSlashCommands: 2147483648n;
       voiceRequestToSpeak: 4294967296n;
+      useExternalStickers: 137438953472n;
       manageThreads: 17179869184n;
       usePublicThreads: 34359738368n;
       usePrivateThreads: 68719476736n;
       allGuild: 2080899262n;
-      allText: 123212397649n;
+      allText: 260651351121n;
       allVoice: 4629464849n;
       all: 128849018879n;
     };
