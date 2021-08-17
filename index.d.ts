@@ -1252,6 +1252,8 @@ declare namespace Eris {
     content?: string;
     embeds?: EmbedOptions[];
     file?: FileContent | FileContent[];
+    threadID?: string;
+    flags?: number;
     tts?: boolean;
     username?: string;
     wait?: boolean;
