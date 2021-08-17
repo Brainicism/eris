@@ -1493,9 +1493,9 @@ declare namespace Eris {
       usePublicThreads: 34359738368n;
       usePrivateThreads: 68719476736n;
       allGuild: 2080899262n;
-      allText: 260651351121n;
+      allText: 131802332241n;
       allVoice: 4629464849n;
-      all: 128849018879n;
+      all: 137438953471n;
     };
     REST_VERSION: 9;
     StickerTypes: {
