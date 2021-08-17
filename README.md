@@ -8,10 +8,13 @@
 * [@bsian03](https://github.com/bsian03) [[Support guild specific avatars](https://github.com/abalabahaha/eris/pull/1219)]
 * [@DonovanDMC](https://github.com/DonovanDMC) [[Sticker Sending](https://github.com/abalabahaha/eris/pull/1252)]
 * [@HeadTriXz](https://github.com/HeadTriXz) [[Better types for events](https://github.com/abalabahaha/eris/pull/1242)]
-* [@iiFDCT](https://github.com/iiFDCT) [[Add support for user banners ](https://github.com/abalabahaha/eris/pull/1238)]
+* [@iiFDCT](https://github.com/iiFDCT) [[Add support for user banners](https://github.com/abalabahaha/eris/pull/1238)]
 * [@LJNeon](https://github.com/LJNeon) [[Standardized parsing errors](https://github.com/abalabahaha/eris/pull/1227)]
 * [@bsian03](https://github.com/bsian03) [[Fix/improve handling of rate limit headers](https://github.com/abalabahaha/eris/pull/1256)]
 * [@bsian03](https://github.com/bsian03) [[Expose audit log events 83-85](https://github.com/abalabahaha/eris/pull/1213)]
+* [@bsian03](https://github.com/bsian03) [[Warn when invalid intent is supplied](https://github.com/abalabahaha/eris/pull/1261)]
+* [@iiFDCT](https://github.com/iiFDCT) [[Ability to manage stickers, guildStickersUpdate and Guild#stickers](https://github.com/abalabahaha/eris/pull/1258)]
+* [@iiFDCT](https://github.com/iiFDCT) [[Update permission flag names to match Discord & update guildEmojisAndStickers intent name](https://github.com/abalabahaha/eris/pull/1257)]
 
 #### To Install:
 ```
