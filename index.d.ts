@@ -56,20 +56,6 @@ declare namespace Eris {
   type VerificationLevel = 0 | 1 | 2 | 3 | 4;
 
   // Message
-  type AdvancedMessageContent = {
-    allowedMentions?: AllowedMentions;
-    components?: ActionRow[];
-    content?: string;
-    /** @deprecated */
-    embed?: EmbedOptions;
-    embeds?: EmbedOptions[];
-    flags?: number;
-    messageReference?: MessageReferenceReply;
-    /** @deprecated */
-    messageReferenceID?: string;
-    stickerIDs?: string[];
-    tts?: boolean;
-  };
   type ActionRowComponents = Button | SelectMenu;
   type Button = InteractionButton | URLButton;
   type Component = ActionRow | ActionRowComponents;
@@ -606,13 +592,12 @@ declare namespace Eris {
     error: [err: Error, id: number];
     friendSuggestionCreate: [user: User, reasons: FriendSuggestionReasons];
     friendSuggestionDelete: [user: User];
-    guildBanAdd: [];
+    guildBanAdd: [guild: Guild, user: User];
     guildBanRemove: [guild: Guild, user: User];
     guildAvailable: [guild: Guild];
     guildCreate: [guild: Guild];
     guildDelete: [guild: PossiblyUncachedGuild];
     guildEmojisUpdate: [guild: PossiblyUncachedGuild, emojis: Emoji[], oldEmojis: Emoji[] | null];
-    guildStickersUpdate: [guild: PossiblyUncachedGuild, stickers: Sticker[], oldStickers: Sticker[] | null];
     guildMemberAdd: [guild: Guild, member: Member];
     guildMemberChunk: [guild: Guild, members: Member[]];
     guildMemberRemove: [guild: Guild, member: Member | MemberPartial];
@@ -650,12 +635,13 @@ declare namespace Eris {
     threadListSync: [guild: Guild, deletedThreads: (AnyThreadChannel | Uncached)[], activeThreads: AnyThreadChannel[], joinedThreadsMember: ThreadMember[]];
     threadMembersUpdate: [channel: AnyThreadChannel, removedMembers: (ThreadMember | Uncached)[], addedMembers: ThreadMember[]];
     threadMemberUpdate: [channel: AnyThreadChannel, member: ThreadMember, oldMember: OldThreadMember];
-    threadUpdate: [channel: AnyThreadChannel, oldChannel: OldThread];
+    threadUpdate: [channel: AnyThreadChannel, oldChannel: OldThread | null];
     typingStart: [channel: GuildTextableChannel | Uncached, user: User | Uncached, member: Member] | [channel: PrivateChannel | Uncached, user: User | Uncached, member: null];
     userUpdate: [user: User, oldUser: PartialUser | null];
     voiceChannelJoin: [member: Member, channel: AnyVoiceChannel];
     voiceChannelLeave: [member: Member, channel: AnyVoiceChannel];
-    voiceChannelSwitch: [member: Member, newChannel: AnyVoiceChannel, oldChannel: AnyVoiceChannel] | [member: UncachedMemberVoiceState, oldState: null];
+    voiceChannelSwitch: [member: Member, newChannel: AnyVoiceChannel, oldChannel: AnyVoiceChannel];
+    voiceStateUpdate: [member: Member, oldState: OldVoiceState] | [member: UncachedMemberVoiceState, oldState: null];
     warn: [message: string, id: number];
     debug: [message: string, id: number];
     webhooksUpdate: [data: WebhookData];
@@ -955,6 +941,26 @@ declare namespace Eris {
     command: Command;
     timeout: NodeJS.Timer;
   }
+
+  interface AdvancedMessageContent {
+    allowedMentions?: AllowedMentions;
+    components?: ActionRow[];
+    content?: string;
+    /** @deprecated */
+    embed?: EmbedOptions;
+    embeds?: EmbedOptions[];
+    flags?: number;
+    messageReference?: MessageReferenceReply;
+    /** @deprecated */
+    messageReferenceID?: string;
+    stickerIDs?: string[];
+    tts?: boolean;
+  }
+
+  interface AdvancedMessageContentEdit extends AdvancedMessageContent {
+    file?: FileContent | FileContent[];
+  }
+
   interface AdvancedMessageContentEdit extends AdvancedMessageContent {
     file?: FileContent | FileContent[];
   }
@@ -1002,7 +1008,7 @@ declare namespace Eris {
   interface EditStickerOptions {
     description?: string;
     name?: string;
-    tags?: string
+    tags?: string;
   }
   interface GetMessageReactionOptions {
     after?: string;
@@ -1507,8 +1513,8 @@ declare namespace Eris {
     };
     REST_VERSION: 9;
     StickerTypes: {
-      STANDARD: 1,
-      GUILD: 2
+      STANDARD: 1;
+      GUILD: 2;
     };
     StickerFormats: {
       PNG: 1;
@@ -2003,7 +2009,6 @@ declare namespace Eris {
       secret: string,
       code: string
     ): Promise<{ backup_codes: { code: string; consumed: boolean }[]; token: string }>;
-
     executeSlackWebhook(webhookID: string, token: string, options: Record<string, unknown> & { auth?: boolean; threadID?: string }): Promise<void>;
     executeSlackWebhook(webhookID: string, token: string, options: Record<string, unknown> & { auth?: boolean; threadID?: string; wait: true }): Promise<Message<GuildTextableChannel>>;
     executeWebhook(webhookID: string, token: string, options: WebhookPayload & { wait: true }): Promise<Message<GuildTextableChannel>>;
