@@ -598,6 +598,7 @@ declare namespace Eris {
     guildCreate: [guild: Guild];
     guildDelete: [guild: PossiblyUncachedGuild];
     guildEmojisUpdate: [guild: PossiblyUncachedGuild, emojis: Emoji[], oldEmojis: Emoji[] | null];
+    guildStickersUpdate: [guild: PossiblyUncachedGuild, stickers: Sticker[], oldStickers: Sticker[] | null];
     guildMemberAdd: [guild: Guild, member: Member];
     guildMemberChunk: [guild: Guild, members: Member[]];
     guildMemberRemove: [guild: Guild, member: Member | MemberPartial];
