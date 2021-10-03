@@ -1981,6 +1981,7 @@ declare namespace Dysnomia {
     pcmSize?: number;
     samplingRate?: number;
     voiceDataTimeout?: number;
+    opusPassthrough?: boolean;
   }
   interface VoiceServerUpdateData extends Omit<VoiceConnectData, "channel_id"> {
     guild_id: string;
