@@ -177,21 +177,27 @@ declare namespace Eris {
     application_id: string;
     defaultPermission?: boolean;
     description: T extends Constants["ApplicationCommandTypes"]["CHAT_INPUT"] ? string : never;
+    description_localizations?: T extends Constants["ApplicationCommandTypes"]["CHAT_INPUT"] ? { [locale: string]: string } : never;
     guild_id?: string;
     id: string;
     name: string;
+    name_localizations?: { [locale: string]: string };
     options?: ApplicationCommandOptions[];
     type: T;
   }
   interface ApplicationCommandOptionsSubCommand {
     description: string;
+    description_localizations?: { [locale: string]: string };
     name: string;
+    name_localizations?: { [locale: string]: string };
     options?: ApplicationCommandOptionsWithValue[];
     type: Constants["ApplicationCommandOptionTypes"]["SUB_COMMAND"];
   }
   interface ApplicationCommandOptionsSubCommandGroup {
     description: string;
+    description_localizations?: { [locale: string]: string };
     name: string;
+    name_localizations?: { [locale: string]: string };
     options?: (ApplicationCommandOptionsSubCommand | ApplicationCommandOptionsWithValue)[];
     type: Constants["ApplicationCommandOptionTypes"]["SUB_COMMAND_GROUP"];
   }
