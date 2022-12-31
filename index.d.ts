@@ -215,7 +215,9 @@ declare namespace Eris {
     autocomplete?: boolean;
     choices?: ApplicationCommandOptionChoice<T>[];
     description: string;
+    description_localizations?: { [locale: string]: string };
     name: string;
+    name_localizations?: { [locale: string]: string };
     required?: boolean;
     type: T;
   }
@@ -223,16 +225,20 @@ declare namespace Eris {
     autocomplete?: boolean;
     choices?: ApplicationCommandOptionChoice<T>[];
     description: string;
+    description_localizations?: { [locale: string]: string };
     max_value?: number;
     min_value?: number;
     name: string;
+    name_localizations?: { [locale: string]: string };
     required?: boolean;
     type: T;
   }
   interface ApplicationCommandOption<T extends Constants["ApplicationCommandOptionTypes"][Exclude<keyof Constants["ApplicationCommandOptionTypes"], "SUB_COMMAND" | "SUB_COMMAND_GROUP">]> {
     channel_types: T extends Constants["ApplicationCommandOptionTypes"]["CHANNEL"] ? ChannelTypes | undefined : never;
     description: string;
+    description_localizations?: { [locale: string]: string };
     name: string;
+    name_localizations?: { [locale: string]: string };
     required?: boolean;
     type: T;
   }
