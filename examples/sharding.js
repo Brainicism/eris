@@ -1,12 +1,14 @@
-const Eris = require("eris");
+const Dysnomia = require("@projectdysnomia/dysnomia");
 
 // Replace TOKEN with your bot account's token
-const bot = new Eris("Bot TOKEN", {
-    firstShardID: 0,
-    lastShardID: 15,
-    maxShards: 16,
-    getAllUsers: false,
-    intents: ["guilds", "guildMembers", "guildPresences"]
+const bot = new Dysnomia("Bot TOKEN", {
+    gateway: {
+        firstShardID: 0,
+        lastShardID: 15,
+        maxShards: 16,
+        getAllUsers: false,
+        intents: ["guilds", "guildMembers", "guildPresences"]
+    }
 });
 
 bot.on("ready", () => { // When the bot is ready
