@@ -1,14 +1,15 @@
-import Eris from "./index.js";
+import Dysnomia from "./index.js";
 
 export default function(token, options) {
-  return new Eris.Client(token, options);
+  return new Dysnomia.Client(token, options);
 }
 
 export const {
+  ApplicationCommand,
+  Attachment,
   AutocompleteInteraction,
   Base,
   Bucket,
-  Call,
   CategoryChannel,
   Channel,
   Client,
@@ -21,16 +22,17 @@ export const {
   DiscordHTTPError,
   DiscordRESTError,
   ExtendedUser,
-  GroupChannel,
   Guild,
   GuildChannel,
   GuildIntegration,
   GuildPreview,
+  GuildScheduledEvent,
   GuildTemplate,
   Interaction,
   Invite,
   Member,
   Message,
+  ModalSubmitInteraction,
   NewsChannel,
   NewsThreadChannel,
   Permission,
@@ -39,7 +41,6 @@ export const {
   PrivateChannel,
   PrivateThreadChannel,
   PublicThreadChannel,
-  Relationship,
   RequestHandler,
   Role,
   SequentialBucket,
@@ -47,17 +48,15 @@ export const {
   SharedStream,
   StageChannel,
   StageInstance,
-  StoreChannel,
   TextChannel,
   TextVoiceChannel,
   ThreadChannel,
   ThreadMember,
   UnavailableGuild,
-  UnknownInteraction,
   User,
   VERSION,
   VoiceChannel,
   VoiceConnection,
   VoiceConnectionManager,
   VoiceState
-} = Eris;
+} = Dysnomia;

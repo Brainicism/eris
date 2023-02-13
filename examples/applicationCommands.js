@@ -1,16 +1,16 @@
-const Eris = require("eris");
+const Dysnomia = require("@projectdysnomia/dysnomia");
 
-const Constants = Eris.Constants;
+const Constants = Dysnomia.Constants;
 
 // Replace TOKEN with your bot account's token
-const bot = new Eris("BOT TOKEN", {
-    intents: [] //No intents are needed for interactions, but you still need to specify either an empty array or 0
+const bot = new Dysnomia("BOT TOKEN", {
+    gateway: {
+        intents: [] //No intents are needed for interactions, but you still need to specify either an empty array or 0
+    }
 });
 
 bot.on("ready", async () => { // When the bot is ready
     console.log("Ready!"); // Log "Ready!"
-
-    //Note: You should use guild commands to test, as they update instantly. Global commands can take up to an hour to update.
 
     const commands = await bot.getCommands();
 
@@ -80,7 +80,7 @@ bot.on("error", (err) => {
 });
 
 bot.on("interactionCreate", (interaction) => {
-    if(interaction instanceof Eris.CommandInteraction) {
+    if(interaction instanceof Dysnomia.CommandInteraction) {
         switch(interaction.data.name) {
             case "test_edit_command":
                 interaction.createMessage("interaction recieved");
