@@ -2102,11 +2102,6 @@ declare namespace Dysnomia {
       SAFE:           2;
       AGE_RESTRICTED: 3;
     };
-    HubTypes: {
-      DEFAULT:     0;
-      HIGH_SCHOOL: 1;
-      COLLEGE:     2;
-    };
     ImageFormats: [
       "jpg",
       "jpeg",
@@ -3057,7 +3052,6 @@ declare namespace Dysnomia {
     events: Collection<GuildScheduledEvent>;
     explicitContentFilter: ExplicitContentFilter;
     features: GuildFeatures[];
-    hubType: HubType | null;
     icon: string | null;
     iconURL: string | null;
     id: string;
