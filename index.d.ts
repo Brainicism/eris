@@ -866,6 +866,7 @@ declare namespace Dysnomia {
     userUpdate: [user: User, oldUser: PartialUser | null];
     voiceChannelJoin: [member: Member, channel: AnyVoiceChannel];
     voiceChannelLeave: [member: Member, channel: AnyVoiceChannel];
+    voiceChannelStatusUpdate: [channel: AnyVoiceChannel, oldChannel: VoiceStatus];
     voiceChannelSwitch: [member: Member, newChannel: AnyVoiceChannel, oldChannel: AnyVoiceChannel];
     voiceStateUpdate: [member: Member, oldState: OldVoiceState];
     warn: [message: string, id?: number];
@@ -1717,6 +1718,9 @@ declare namespace Dysnomia {
     requestToSpeakTimestamp?: Date | null;
     suppress?: boolean;
   }
+  interface VoiceStatus {
+    status: string;
+  }
   interface VoiceStreamCurrent {
     buffer: Buffer | null;
     bufferingTicks: number;
@@ -1944,6 +1948,7 @@ declare namespace Dysnomia {
       AUTO_MODERATION_RULE_UPDATE:   141;
       AUTO_MODERATION_RULE_DELETE:   142;
       AUTO_MODERATION_BLOCK_MESSAGE: 143;
+      
       AUTO_MODERATION_FLAG_TO_CHANNEL: 144;
       AUTO_MODERATION_USER_COMMUNICATION_DISABLED: 145;
 
@@ -1956,6 +1961,9 @@ declare namespace Dysnomia {
 
       GUILD_HOME_FEATURE_ITEM: 171;
       GUILD_HOME_REMOVE_ITEM:  172;
+
+      VOICE_CHANNEL_STATUS_UPDATE: 192;
+      VOICE_CHANNEL_STATUS_DELETE: 193;
     };
     AutoModerationActionTypes: {
       BLOCK_MESSAGE:      1;
@@ -2284,10 +2292,11 @@ declare namespace Dysnomia {
       sendMessagesInThreads:   274877906944n;
       startEmbeddedActivities: 549755813888n;
       moderateMembers:         1099511627776n;
-      allGuild:                1110182461630n;
-      allText:                 535529258065n;
-      allVoice:                554385278737n;
-      all:                     2199023255551n;
+      setVoiceChannelStatus:   281474976710656n;
+      allGuild:                311172461494462n;
+      allText:                 70904273435729n;
+      allVoice:                391980524766993n;
+      all:                     422212465065983n;
     };
     PremiumTiers: {
       NONE:   0;
@@ -2836,6 +2845,7 @@ declare namespace Dysnomia {
     removeMessageReactions(channelID: string, messageID: string): Promise<void>;
     searchGuildMembers(guildID: string, query: string, limit?: number): Promise<Member[]>;
     sendChannelTyping(channelID: string): Promise<void>;
+    setVoiceChannelStatus(channelID: string, status: string, reason?: string): Promise<void>;
     syncGuildIntegration(guildID: string, integrationID: string): Promise<void>;
     syncGuildTemplate(guildID: string, code: string): Promise<GuildTemplate>;
     unbanGuildMember(guildID: string, userID: string, reason?: string): Promise<void>;
@@ -3206,6 +3216,7 @@ declare namespace Dysnomia {
     message?: Message<GuildTextableChannel>;
     reason: string | null;
     role?: Role | { id: string; name: string };
+    status?: string;
     target?: Guild | AnyGuildChannel | AnyThreadChannel | Member | Role | Invite | Emoji | Sticker | StageInstance | User | GuildScheduledEvent | null;
     targetID: string;
     user: User | Uncached;
@@ -3927,6 +3938,7 @@ declare namespace Dysnomia {
     permissionOverwrites: Collection<PermissionOverwrite>;
     position: number;
     rtcRegion: string | null;
+    status?: string;
     type: GuildVoiceChannelTypes;
     userLimit: number;
     videoQualityMode: VideoQualityMode;
@@ -3935,6 +3947,7 @@ declare namespace Dysnomia {
     getInvites(): Promise<(Invite<"withMetadata", VoiceChannel>)[]>;
     join(options?: JoinVoiceChannelOptions): Promise<VoiceConnection>;
     leave(): void;
+    setStatus(status: string, reason?: string): Promise<void>;
   }
 
   export class VoiceConnection extends EventEmitter implements SimpleJSON {
